@@ -14,18 +14,17 @@ export const routes: Routes = [
         canActivate: [authGuard, roleGuard(UserRole.User)],
         loadComponent: () => import('./feature/vote/vote.component').then((m) => m.VoteComponent),
     },
-    // TODO @willi79 will implement this later
-    // {
-    //     path: 'admin/results',
-    //     canActivate: [authGuard, roleGuard(UserRole.Admin)],
-    //     loadComponent: () =>
-    //         import('./feature/admin/admin-results/admin-results.component').then((m) => m.AdminResultsComponent),
-    // },
-    // {
-    //     path: 'admin/users',
-    //     canActivate: [authGuard, roleGuard(UserRole.Admin)],
-    //     loadComponent: () =>
-    //         import('./feature/admin/admin-users/admin-users.component').then((m) => m.AdminUsersComponent),
-    // },
+    {
+        path: 'admin/results',
+        canActivate: [authGuard, roleGuard(UserRole.Admin)],
+        loadComponent: () =>
+            import('./feature/admin/admin-results/admin-results.component').then((m) => m.AdminResultsComponent),
+    },
+    {
+        path: 'admin/users',
+        canActivate: [authGuard, roleGuard(UserRole.Admin)],
+        loadComponent: () =>
+            import('./feature/admin/admin-users/admin-users.component').then((m) => m.AdminUsersComponent),
+    },
     { path: '**', redirectTo: 'login' },
 ];

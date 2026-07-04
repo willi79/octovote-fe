@@ -1,0 +1,53 @@
+<h1>Manage users</h1>
+<p>Promote voters to admin, demote admins, or remove accounts.</p>
+
+@if (isLoading()) {
+  <p>Loading users…</p>
+} @else {
+  @if (errorMessage()) {
+    <p class="error">{{ errorMessage() }}</p>
+  }
+
+  @if (users().length === 0) {
+    <p>No users yet.</p>
+  } @else {
+    <table>
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Email</th>
+        <th>Role</th>
+        <th>Voted</th>
+        <th></th>
+      </tr>
+      </thead>
+      <tbody>
+        @for (user of users(); track user._id) {
+          <tr>
+            <td>{{ user.name }}</td>
+            <td>{{ user.email }}</td>
+            <td>{{ user.role }}</td>
+            <td>{{ user.hasVoted ? 'Yes' : 'No' }}</td>
+            <td class="actions">
+              <button
+                (click)="toggleRole(user)"
+                [disabled]="busyUserId() === user._id"
+                type="button"
+              >
+                Make {{ user.role === 'admin' ? 'user' : 'admin' }}
+              </button>
+              <button
+                (click)="remove(user)"
+                [disabled]="busyUserId() === user._id"
+                class="danger"
+                type="button"
+              >
+                Delete
+              </button>
+            </td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+}
