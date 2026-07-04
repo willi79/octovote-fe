@@ -1,0 +1,31 @@
+<h1>{{ mode() === 'login' ? 'Sign in' : 'Register' }}</h1>
+
+<div class="tabs">
+  <button (click)="setMode('login')" [class.active]="mode() === 'login'" type="button">Log in</button>
+  <button (click)="setMode('register')" [class.active]="mode() === 'register'" type="button">Register</button>
+</div>
+
+@if (mode() === 'login') {
+  <form (ngSubmit)="submitLogin()" [formGroup]="loginForm">
+    <label>Email <input formControlName="email" type="email"/></label>
+    <label>Password <input formControlName="password" type="password"/></label>
+    @if (errorMessage()) {
+      <p class="error">{{ errorMessage() }}</p>
+    }
+    <button [disabled]="loginForm.invalid || isSubmitting()" type="submit">
+      {{ isSubmitting() ? 'Signing in…' : 'Sign in' }}
+    </button>
+  </form>
+} @else {
+  <form (ngSubmit)="submitRegister()" [formGroup]="registerForm">
+    <label>Name <input formControlName="name" type="text"/></label>
+    <label>Email <input formControlName="email" type="email"/></label>
+    <label>Password <input formControlName="password" type="password"/></label>
+    @if (errorMessage()) {
+      <p class="error">{{ errorMessage() }}</p>
+    }
+    <button [disabled]="registerForm.invalid || isSubmitting()" type="submit">
+      {{ isSubmitting() ? 'Creating account…' : 'Create account' }}
+    </button>
+  </form>
+}

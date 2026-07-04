@@ -1,0 +1,36 @@
+<h1>Vote tally</h1>
+<p>Live count of every vote cast so far.</p>
+
+@if (isLoading()) {
+  <p>Loading results…</p>
+} @else if (errorMessage()) {
+  <p class="error">{{ errorMessage() }}</p>
+} @else {
+  <div class="totals">
+    <strong>Total votes:</strong> {{ totalVotes() }}
+    <button (click)="load()" type="button">Refresh</button>
+  </div>
+
+  @if (results().length === 0) {
+    <p>No votes have been cast yet.</p>
+  } @else {
+    <table>
+      <thead>
+      <tr>
+        <th>Name</th>
+        <th>Votes</th>
+        <th>Share</th>
+      </tr>
+      </thead>
+      <tbody>
+        @for (candidate of results(); track candidate._id) {
+          <tr>
+            <td>{{ candidate.name }}</td>
+            <td>{{ candidate.votes }}</td>
+            <td>{{ sharePercent(candidate.votes) }}%</td>
+          </tr>
+        }
+      </tbody>
+    </table>
+  }
+}

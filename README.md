@@ -1,27 +1,67 @@
-# OctovoteFe
+# OctoVote Frontend
 
-This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.2.21.
+Angular frontend for OctoVote — built with Angular 18 and TypeScript.
 
-## Development server
+## Prerequisites
 
-Run `ng serve` for a dev server. Navigate to `http://localhost:4200/`. The application will automatically reload if you change any of the source files.
+- Node.js 20+
+- Yarn
+- OctoVote backend running (see [octovote-server](https://github.com/your-org/octovote-server))
 
-## Code scaffolding
+## Setup
 
-Run `ng generate component component-name` to generate a new component. You can also use `ng generate directive|pipe|service|class|guard|interface|enum|module`.
+```bash
+# 1. Clone the repository
+git clone <your-repo-url>
+cd octovote-fe
 
-## Build
+# 2. Install dependencies
+yarn install
+```
 
-Run `ng build` to build the project. The build artifacts will be stored in the `dist/` directory.
+Open `src/environment/environment.ts` and set your backend API URL:
 
-## Running unit tests
+```ts
+apiUrl: 'http://localhost:4000/api'
+```
 
-Run `ng test` to execute the unit tests via [Karma](https://karma-runner.github.io).
+## Running the App
 
-## Running end-to-end tests
+```bash
+# development
+yarn start
 
-Run `ng e2e` to execute the end-to-end tests via a platform of your choice. To use this command, you need to first add a package that implements end-to-end testing capabilities.
+# production build
+yarn build
+```
 
-## Further help
+App runs at `http://localhost:4200`.
 
-To get more help on the Angular CLI use `ng help` or go check out the [Angular CLI Overview and Command Reference](https://angular.dev/tools/cli) page.
+## Project Structure
+
+```
+src/app/
+  core/
+    model/         # TypeScript interfaces
+    service/       # AuthService, VoteService, UserService
+    guard/         # authGuard, roleGuard
+    interceptor/   # authInterceptor
+  feature/
+    login/         # login and register page
+    vote/          # voter ballot page
+    admin/
+      admin-results/  # vote results page
+      admin-users/    # user management page
+  shared/
+    navbar/        # top navigation bar
+environment/       # environment configuration
+```
+
+## Routes
+
+| Route            | Access     | Description        |
+|------------------|------------|--------------------|
+| `/login`         | Public     | Login and register |
+| `/vote`          | User only  | Cast vote          |
+| `/admin/results` | Admin only | View vote results  |
+| `/admin/users`   | Admin only | Manage users       |
