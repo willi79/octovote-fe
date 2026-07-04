@@ -1,3 +1,28 @@
 import { Routes } from '@angular/router';
 
-export const routes: Routes = [];
+export const routes: Routes = [
+    { path: '', pathMatch: 'full', redirectTo: 'login' },
+    {
+        path: 'login',
+        loadComponent: () => import('./feature/login/login.component').then((m) => m.LoginComponent),
+    },
+    // TODO @willi79 will implement this later
+    // {
+    //     path: 'vote',
+    //     canActivate: [authGuard, roleGuard(UserRole.User)],
+    //     loadComponent: () => import('./feature/vote/vote.component').then((m) => m.VoteComponent),
+    // },
+    // {
+    //     path: 'admin/results',
+    //     canActivate: [authGuard, roleGuard(UserRole.Admin)],
+    //     loadComponent: () =>
+    //         import('./feature/admin/admin-results/admin-results.component').then((m) => m.AdminResultsComponent),
+    // },
+    // {
+    //     path: 'admin/users',
+    //     canActivate: [authGuard, roleGuard(UserRole.Admin)],
+    //     loadComponent: () =>
+    //         import('./feature/admin/admin-users/admin-users.component').then((m) => m.AdminUsersComponent),
+    // },
+    { path: '**', redirectTo: 'login' },
+];
