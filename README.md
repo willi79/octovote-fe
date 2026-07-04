@@ -65,7 +65,3 @@ environment/       # environment configuration
 | `/vote`          | User only  | Cast vote          |
 | `/admin/results` | Admin only | View vote results  |
 | `/admin/users`   | Admin only | Manage users       |
-
-## CI/CD
-
-GitHub Actions runs a production build check on every PR and push to master.
