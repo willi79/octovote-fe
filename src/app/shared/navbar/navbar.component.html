@@ -1,0 +1,20 @@
+<header class="topbar">
+  <div class="brand">
+    <span class="mark">⬡</span>
+    <span class="name">OctoVote</span>
+  </div>
+
+  @if (auth.currentUser(); as user) {
+    <nav class="links">
+      @if (user.role === UserRole.User) {
+        <a routerLink="/vote">Vote</a>
+      }
+      @if (user.role === UserRole.Admin) {
+        <a routerLink="/admin/results">Results</a>
+        <a routerLink="/admin/users">Users</a>
+      }
+      <span class="user-name">{{ user.name }}</span>
+      <button (click)="logout()" type="button">Log out</button>
+    </nav>
+  }
+</header>
