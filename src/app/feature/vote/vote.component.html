@@ -1,0 +1,66 @@
+<h1>Cast your vote</h1>
+<p>Choose a name already on the ballot, or add a new one. One vote per voter.</p>
+
+@if (votedFor()) {
+  <div class="voted">
+    <h2>✓ Voted</h2>
+    @if (votedFor() !== 'already-voted') {
+      <p>Your vote for <strong>{{ votedFor() }}</strong> has been recorded.</p>
+    } @else {
+      <p>You've already cast your vote.</p>
+    }
+  </div>
+} @else {
+  @if (isLoading()) {
+    <p>Loading the ballot…</p>
+  } @else {
+    <div class="tabs">
+      <button
+        (click)="setChoiceMode('existing')"
+        [class.active]="choiceMode() === 'existing'"
+        [disabled]="candidates().length === 0"
+        type="button"
+      >
+        Pick existing name
+      </button>
+      <button
+        (click)="setChoiceMode('new')"
+        [class.active]="choiceMode() === 'new'"
+        type="button"
+      >
+        Add a new name
+      </button>
+    </div>
+
+    <form (ngSubmit)="submit()" [formGroup]="form">
+      @if (choiceMode() === 'existing') {
+        @if (candidates().length === 0) {
+          <p>No names on the ballot yet — be the first to add one.</p>
+        } @else {
+          <label>
+            Candidate
+            <select formControlName="existingName">
+              <option disabled selected value="">Choose a name…</option>
+              @for (candidate of candidates(); track candidate._id) {
+                <option [value]="candidate.name">{{ candidate.name }}</option>
+              }
+            </select>
+          </label>
+        }
+      } @else {
+        <label>
+          New name
+          <input formControlName="newName" placeholder="e.g. Alex Rivera" type="text"/>
+        </label>
+      }
+
+      @if (errorMessage()) {
+        <p class="error">{{ errorMessage() }}</p>
+      }
+
+      <button [disabled]="isSubmitting()" type="submit">
+        {{ isSubmitting() ? 'Recording vote…' : 'Cast vote' }}
+      </button>
+    </form>
+  }
+}

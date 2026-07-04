@@ -1,4 +1,7 @@
 import { Routes } from '@angular/router';
+import { authGuard } from './core/guard/auth.guard';
+import { roleGuard } from './core/guard/role.guard';
+import { UserRole } from './core/model/user.model';
 
 export const routes: Routes = [
     { path: '', pathMatch: 'full', redirectTo: 'login' },
@@ -6,12 +9,12 @@ export const routes: Routes = [
         path: 'login',
         loadComponent: () => import('./feature/login/login.component').then((m) => m.LoginComponent),
     },
+    {
+        path: 'vote',
+        canActivate: [authGuard, roleGuard(UserRole.User)],
+        loadComponent: () => import('./feature/vote/vote.component').then((m) => m.VoteComponent),
+    },
     // TODO @willi79 will implement this later
-    // {
-    //     path: 'vote',
-    //     canActivate: [authGuard, roleGuard(UserRole.User)],
-    //     loadComponent: () => import('./feature/vote/vote.component').then((m) => m.VoteComponent),
-    // },
     // {
     //     path: 'admin/results',
     //     canActivate: [authGuard, roleGuard(UserRole.Admin)],

@@ -3,6 +3,7 @@ import { FormBuilder, ReactiveFormsModule, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
 
 import { AuthService } from '../../core/service/auth.service';
+import { UserRole } from '../../core/model/user.model';
 
 @Component({
     selector: 'app-login',
@@ -63,8 +64,9 @@ export class LoginComponent {
         });
     }
 
-    private redirectByRole(role: 'admin' | 'user'): void {
+    private redirectByRole(role: UserRole): void {
         this.isSubmitting.set(false);
-        this.router.navigate([role === 'admin' ? '/admin/results' : '/vote']);
+        console.log(role);
+        this.router.navigate([role === UserRole.Admin ? '/admin/results' : '/vote']);
     }
 }
