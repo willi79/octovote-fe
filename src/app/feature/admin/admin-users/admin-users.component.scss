@@ -21,3 +21,13 @@ th, td {
 .danger {
   color: red;
 }
+
+.you-badge {
+  color: var(--color-ink-soft);
+  font-size: 0.85rem;
+  padding: 0.5rem 1rem;
+}
+
+.actions button {
+  min-width: 110px;
+}

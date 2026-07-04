@@ -1,7 +1,8 @@
 import { Component, inject, OnInit, signal } from '@angular/core';
 
-import { UserService } from '../../../core/service/user.service';
+import { AuthService } from '../../../core/service/auth.service';
 import { User, UserRole } from '../../../core/model/user.model';
+import { UserService } from '../../../core/service/user.service';
 
 @Component({
     selector: 'app-admin-users',
@@ -16,6 +17,7 @@ export class AdminUsersComponent implements OnInit {
     readonly errorMessage = signal<string | null>(null);
     readonly busyUserId = signal<string | null>(null);
     private readonly userService = inject(UserService);
+    private readonly auth = inject(AuthService);
 
     ngOnInit(): void {
         this.load();
@@ -35,7 +37,13 @@ export class AdminUsersComponent implements OnInit {
         });
     }
 
+    isCurrentUser(user: User): boolean {
+        return user._id === this.auth.currentUser()?._id;
+    }
+
     toggleRole(user: User): void {
+        if (this.isCurrentUser(user)) return;
+
         const nextRole: UserRole = user.role === UserRole.Admin ? UserRole.User : UserRole.Admin;
         this.busyUserId.set(user._id);
 
@@ -52,6 +60,7 @@ export class AdminUsersComponent implements OnInit {
     }
 
     remove(user: User): void {
+        if (this.isCurrentUser(user)) return;
         if (!confirm(`Delete ${user.name} (${user.email})? This cannot be undone.`)) return;
 
         this.busyUserId.set(user._id);

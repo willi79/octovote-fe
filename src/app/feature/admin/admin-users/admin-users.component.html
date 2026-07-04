@@ -31,19 +31,22 @@
             <td class="actions">
               <button
                 (click)="toggleRole(user)"
-                [disabled]="busyUserId() === user._id"
+                [disabled]="busyUserId() === user._id || isCurrentUser(user)"
                 type="button"
               >
                 Make {{ user.role === 'admin' ? 'user' : 'admin' }}
               </button>
               <button
                 (click)="remove(user)"
-                [disabled]="busyUserId() === user._id"
+                [disabled]="busyUserId() === user._id || isCurrentUser(user)"
                 class="danger"
                 type="button"
               >
                 Delete
               </button>
+              @if (isCurrentUser(user)) {
+                <span class="you-badge">(you)</span>
+              }
             </td>
           </tr>
         }
